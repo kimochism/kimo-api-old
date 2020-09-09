@@ -6,7 +6,7 @@ const Env = use('Env')
 /** @type {import('@adonisjs/ignitor/src/Helpers')} */
 const Helpers = use('Helpers')
 
-module.exports = {
+const config = {
   /*
   |--------------------------------------------------------------------------
   | Default Connection
@@ -82,3 +82,5 @@ module.exports = {
     debug: Env.get('DB_DEBUG', false)
   }
 }
+
+module.exports = config

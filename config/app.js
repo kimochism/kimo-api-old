@@ -239,5 +239,5 @@ module.exports = {
     sameSite: false,
     path: '/',
     maxAge: 7200
-  }
+  },
 }
