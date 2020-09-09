@@ -1,8 +1,10 @@
 'use strict'
 
+const User = use('App/Models/User')
+
 class UserController {
 
-    async login({ request, auth }) {
+    async auth({ request, auth }) {
         const { email, password } = request.all()
         await auth.attempt(email, password)
 
