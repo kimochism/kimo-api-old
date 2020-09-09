@@ -16,6 +16,9 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
+Route.post('login', 'UserController.login')
+.middleware('guest')
+
 Route.resource('customers', 'CustomerController').validator(new Map([
   [['customers.store'], ['StoreCustomer']],
   [['customers.update'], ['UpdateCustomer']]
