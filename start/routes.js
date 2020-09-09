@@ -19,12 +19,13 @@ const Route = use('Route')
 Route.resource('customers', 'CustomerController').validator(new Map([
   [['customers.store'], ['StoreCustomer']],
   [['customers.update'], ['UpdateCustomer']]
-]))
+])).middleware('auth')
 
 Route.resource('users', 'UserController').validator(new Map([
   [['users.store'], ['StoreUser']],
   [['users.update'], ['UpdateUser']]
 ]))
+
 
 Route.post('auth', 'UserController.auth')
 .middleware('guest')

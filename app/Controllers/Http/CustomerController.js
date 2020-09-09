@@ -33,7 +33,9 @@ class CustomerController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
-    const customer = await Customer.create(request);
+    const data = request.all();
+
+    const customer = await Customer.create(data);
 
     return customer;
   }
