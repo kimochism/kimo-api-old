@@ -19,7 +19,16 @@ const Route = use('Route')
 Route.post('login', 'UserController.login')
 .middleware('guest')
 
+<<<<<<< HEAD
 Route.resource('customers', 'CustomerController').validator(new Map([
   [['customers.store'], ['StoreCustomer']],
   [['customers.update'], ['UpdateCustomer']]
 ]))
+=======
+Route.get('/a', 'UserController.a')
+
+Route.resource('users', 'UserController').validator(new Map([
+  [['users.store'], ['StoreUser']],
+  [['users.update'], ['UpdateUser']]
+]))
+>>>>>>> b76689281335a5115cdaab0cb5413f9d37eb3380
