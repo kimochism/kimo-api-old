@@ -21,3 +21,8 @@ Route.get('/', () => {
 })
 
 Route.get('/a', 'UserController.a')
+
+Route.resource('users', 'UserController').validator(new Map([
+  [['users.store'], ['StoreUser']],
+  [['users.update'], ['UpdateUser']]
+]))

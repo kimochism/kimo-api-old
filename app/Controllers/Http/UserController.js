@@ -3,8 +3,11 @@
 const User = use('App/Models/User');
 class UserController {
 
-    async a () {
-        return await User.all();
+    async store({ request, response }) {
+        const data = request.only(['username', 'email', 'password']);
+        
+        const user = await User.create(data);
+        return user;
     }
 }
 
