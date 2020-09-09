@@ -16,8 +16,7 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' }
-})
-
-Route.get('/a', 'UserController.a')
+Route.resource('customers', 'CustomerController').validator(new Map([
+  [['customers.store'], ['StoreCustomer']],
+  [['customers.update'], ['UpdateCustomer']]
+]))
