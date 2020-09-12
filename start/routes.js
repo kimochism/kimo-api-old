@@ -14,19 +14,27 @@
 */
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
+
 const Route = use('Route')
 
+// auth
+Route.post('auth', 'UserController.auth')
+.middleware('guest')
+
+// customers
 Route.resource('customers', 'CustomerController').validator(new Map([
   [['customers.store'], ['StoreCustomer']],
   [['customers.update'], ['UpdateCustomer']]
 ])).middleware('auth')
 
+// users
 Route.resource('users', 'UserController').validator(new Map([
   [['users.store'], ['StoreUser']],
   [['users.update'], ['UpdateUser']]
 ]))
 
+// products
+Route.resource('products', 'ProductController')
 
-Route.post('auth', 'UserController.auth')
-.middleware('guest')
-
+// images
+Route.resource('images', 'ImageController');
