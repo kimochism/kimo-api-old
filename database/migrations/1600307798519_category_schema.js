@@ -3,25 +3,25 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class ImageSchema extends Schema {
+class CategorySchema extends Schema {
   up () {
-    this.create('images', (table) => {
+    this.create('categories', (table) => {
       table.increments()
 
+      table.string('name')
+
       table
-      .integer('product_id').unsigned().references('id').inTable('products')
+      .integer('image_id').unsigned().references('id').inTable('images')
       .onUpdate('CASCADE')
       .onDelete('CASCADE')
-
-      table.string('url')
 
       table.timestamps()
     })
   }
 
   down () {
-    this.drop('images')
+    this.drop('categories')
   }
 }
 
-module.exports = ImageSchema
+module.exports = CategorySchema

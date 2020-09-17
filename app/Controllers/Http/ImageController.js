@@ -24,10 +24,7 @@ class ImageController {
 
     const uploadedImage = await this.azureStorageIntegrator.upload(file);
 
-    const image = await Image.create({
-      url: uploadedImage.url,
-      product_id: data.productId
-    });
+    const image = await Image.create({ url: uploadedImage.url });
 
     return image;
   }

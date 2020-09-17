@@ -4,6 +4,11 @@
 const Model = use('Model')
 
 class Image extends Model {
+
+    product() {
+        return this.belongsToMany('App/Models/Product').pivotTable('product_images')
+    }
+
 }
 
 module.exports = Image

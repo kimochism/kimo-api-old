@@ -1,25 +1,9 @@
 'use strict'
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
-
-/**
- * Resourceful controller for interacting with products
- */
-
 const Product = use('App/Models/Product');
 
 class ProductController {
-  /**
-   * Show a list of all products.
-   * GET products
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
+
   async index({ request, response, view }) {
     const query = request.get();
     
@@ -37,6 +21,7 @@ class ProductController {
       .whereRaw(type)
       .whereRaw(price)
       .whereRaw(discountPrice)
+      .whereRaw(categoryId)
 
     if (query.offer) {
       products.whereNotNull('discount_price')
@@ -47,14 +32,6 @@ class ProductController {
       .paginate(query.page, query.limit);
   }
 
-  /**
-   * Create/save a new product.
-   * POST products
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
   async store({ request, response }) {
     const data = request.all();
 
@@ -63,29 +40,14 @@ class ProductController {
     return product;
   }
 
-  /**
-   * Display a single product.
-   * GET products/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
   async show({ params, request, response, view }) {
     const product = await Product.find(params.id);
+
+    await product.load('images');
 
     return product;
   }
 
-  /**
-   * Update product details.
-   * PUT or PATCH products/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
   async update({ params, request, response }) {
     const data = request.all();
 
@@ -97,18 +59,34 @@ class ProductController {
     return product;
   }
 
-  /**
-   * Delete a product with id.
-   * DELETE products/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
   async destroy({ params, request, response }) {
     const product = await Product.find(params.id);
 
     product.delete();
+  }
+
+  async storeProductCategories({ params, request }) {
+    const data = request.only(['categoryIds'])
+
+    const product = await Product.find(params.id);
+
+    await product.categories().attach(data.categoryIds);
+
+    await product.load('categories');
+
+    return product;
+  }
+
+  async storeProductImages({ params, request }) {
+    const data = request.only(['imageIds'])
+
+    const product = await Product.find(params.id);
+
+    await product.images().attach(data.imageIds);
+
+    await product.load('images');
+
+    return product;
   }
 
   getQuery(name, param, condition = 'like') {
@@ -128,6 +106,23 @@ class ProductController {
 
     return '';
   }
+
+  queryBuilder(operation, condition, values) {
+
+    if (!values) {
+        return '';
+    }
+
+    let query = '';
+    for (let i = 0; i < values.length; i++) {
+        const tempQuery = `${operation}`.replace('?', values[i].trim());
+        query += ` ${tempQuery}`;
+        if (i < values.length - 1) {
+            query += ` ${condition}`;
+        }
+    }
+    return query;
+}
 
 }
 
