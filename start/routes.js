@@ -14,15 +14,44 @@
 */
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
+
 const Route = use('Route')
 
-Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' }
-})
+// auth
+Route.post('auth', 'UserController.auth')
+.middleware('guest')
 
-Route.get('/a', 'UserController.a')
+// customers
+Route.resource('customers', 'CustomerController').validator(new Map([
+  [['customers.store'], ['StoreCustomer']],
+  [['customers.update'], ['UpdateCustomer']]
+])).middleware('auth')
 
+// users
 Route.resource('users', 'UserController').validator(new Map([
   [['users.store'], ['StoreUser']],
   [['users.update'], ['UpdateUser']]
 ]))
+
+// products
+Route.resource('products', 'ProductController')
+Route.group(() => {
+  Route.post('products/:id/categories', 'ProductController.storeProductCategories')
+  Route.post('products/:id/images', 'ProductController.storeProductImages')
+})
+
+// categories
+Route.resource('categories', 'CategoryController')
+Route.group(() => {
+  Route.get('categories/:id/products', 'CategoryController.indexCategoryProducts')
+})
+
+// orders
+Route.resource('orders', 'OrderController')
+Route.group(() => {
+  Route.post('orders/:orderId/products/:productId', 'OrderController.storeOrderProduct')
+  Route.delete('orders/:orderId/products/:productId', 'OrderController.destroyOrderProduct')
+})
+
+// images
+Route.resource('images', 'ImageController');
