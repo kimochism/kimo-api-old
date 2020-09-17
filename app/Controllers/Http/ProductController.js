@@ -21,7 +21,6 @@ class ProductController {
       .whereRaw(type)
       .whereRaw(price)
       .whereRaw(discountPrice)
-      .whereRaw(categoryId)
 
     if (query.offer) {
       products.whereNotNull('discount_price')
