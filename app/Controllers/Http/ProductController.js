@@ -15,13 +15,13 @@ class ProductController {
     const discountPrice = this.getQuery('discount_price', query.discountPrice);
     
     const products = Product.query()
+      .with('images')
       .whereRaw(name)
       .whereRaw(size)
       .whereRaw(color)
       .whereRaw(type)
       .whereRaw(price)
       .whereRaw(discountPrice)
-      .whereRaw(categoryId)
 
     if (query.offer) {
       products.whereNotNull('discount_price')
