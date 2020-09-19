@@ -19,7 +19,7 @@ const Route = use('Route')
 
 // auth
 Route.post('auth', 'UserController.auth')
-.middleware('guest')
+// .middleware('guest')
 
 // customers
 Route.resource('customers', 'CustomerController').validator(new Map([
