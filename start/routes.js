@@ -38,6 +38,7 @@ Route.resource('products', 'ProductController')
 Route.group(() => {
   Route.post('products/:id/categories', 'ProductController.storeProductCategories')
   Route.post('products/:id/images', 'ProductController.storeProductImages')
+  Route.post('products/:id/customers', 'ProductController.storeCustomerProduct')
 })
 
 // categories

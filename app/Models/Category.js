@@ -9,6 +9,10 @@ class Category extends Model {
         return this.belongsToMany('App/Models/Product').pivotTable('product_categories')
     }
 
+    image() {
+        return this.belongsTo('App/Models/Image');
+    }
+
 }
 
 module.exports = Category

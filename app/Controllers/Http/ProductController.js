@@ -1,6 +1,7 @@
 'use strict'
 
 const Product = use('App/Models/Product');
+const Customer = use('App/Models/Customer');
 
 class ProductController {
 
@@ -105,6 +106,15 @@ class ProductController {
     }
 
     return '';
+  }
+
+  async storeCustomerProduct({ params, auth }) {
+    const user = await auth.user;
+
+    const customer = await Customer.findBy('user_id', user.id);
+    const product = await Product.find(params.id);
+    
+    
   }
 
   queryBuilder(operation, condition, values) {

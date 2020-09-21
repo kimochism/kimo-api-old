@@ -13,6 +13,10 @@ class Product extends Model {
         return this.belongsToMany('App/Models/Image').pivotTable('product_images')
     }
 
+    customer() {
+        return this.belongsToMany('App/Models/Customer').pivotTable('customer_products').pivotModel('App/Models/Customer');
+    }
+
 }
 
 module.exports = Product

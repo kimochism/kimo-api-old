@@ -7,7 +7,7 @@ class CategoryController {
   async index({ request, response }) {
     const query = request.get();
 
-    const categories = await Category.all();
+    const categories = await Category.query().with('image').fetch();
 
     return categories;
   }
