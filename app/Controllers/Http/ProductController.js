@@ -17,6 +17,7 @@ class ProductController {
     
     const products = Product.query()
       .with('images')
+      .with('categories')
       .whereRaw(name)
       .whereRaw(size)
       .whereRaw(color)
@@ -44,7 +45,7 @@ class ProductController {
   async show({ params, request, response, view }) {
     const product = await Product.find(params.id);
 
-    await product.load('images');
+    await product.loadMany(['images', 'categories']);
 
     return product;
   }
