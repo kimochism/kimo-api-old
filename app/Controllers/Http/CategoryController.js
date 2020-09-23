@@ -41,9 +41,8 @@ class CategoryController {
   }
 
   async indexCategoryProducts({ params }) {
-    const category = await Category.find(params.id);
 
-    await category.load('products');
+    const category = await Category.query().with('products', (build) => { build.with('images') }).where('id',params.id).fetch()
 
     return category;
   }
