@@ -5,6 +5,10 @@ const Model = use('Model')
 
 class Category extends Model {
 
+    static get Serializer() {
+        return use('App/Models/Serializers/JsonSerializer')
+    }
+
     products() {
         return this.belongsToMany('App/Models/Product').pivotTable('product_categories')
     }

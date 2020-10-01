@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class Product extends Model {
+    static get Serializer() {
+        return use('App/Models/Serializers/JsonSerializer')
+    }
 
     categories() {
         return this.belongsToMany('App/Models/Category').pivotTable('product_categories')

@@ -1,20 +1,19 @@
 'use strict'
 
 const Product = use('App/Models/Product');
-const Customer = use('App/Models/Customer');
 
 class ProductController {
 
   async index({ request, response, view }) {
     const query = request.get();
-    
+
     const name = this.getQuery('name', query.name);
     const size = this.getQuery('size', query.size);
     const color = this.getQuery('color', query.color);
     const type = this.getQuery('type', query.type);
     const price = this.getQuery('price', query.price);
     const discountPrice = this.getQuery('discount_price', query.discountPrice);
-    
+
     const products = Product.query()
       .with('images')
       .with('categories')
@@ -67,7 +66,7 @@ class ProductController {
     product.delete();
   }
 
-  async storeProductCategories({ params, request }) {
+  async updateProductCategories({ params, request }) {
     const data = request.only(['categoryIds'])
 
     const product = await Product.find(params.id);
@@ -79,7 +78,7 @@ class ProductController {
     return product;
   }
 
-  async storeProductImages({ params, request }) {
+  async updateProductImages({ params, request }) {
     const data = request.only(['imageIds'])
 
     const product = await Product.find(params.id);
@@ -109,31 +108,22 @@ class ProductController {
     return '';
   }
 
-  async storeCustomerProduct({ params, auth }) {
-    const user = await auth.user;
-
-    const customer = await Customer.findBy('user_id', user.id);
-    const product = await Product.find(params.id);
-    
-    
-  }
-
   queryBuilder(operation, condition, values) {
 
     if (!values) {
-        return '';
+      return '';
     }
 
     let query = '';
     for (let i = 0; i < values.length; i++) {
-        const tempQuery = `${operation}`.replace('?', values[i].trim());
-        query += ` ${tempQuery}`;
-        if (i < values.length - 1) {
-            query += ` ${condition}`;
-        }
+      const tempQuery = `${operation}`.replace('?', values[i].trim());
+      query += ` ${tempQuery}`;
+      if (i < values.length - 1) {
+        query += ` ${condition}`;
+      }
     }
     return query;
-}
+  }
 
 }
 

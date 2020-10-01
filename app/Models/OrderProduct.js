@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class OrderProduct extends Model {
+    static get Serializer() {
+        return use('App/Models/Serializers/JsonSerializer')
+    }
 }
 
 module.exports = OrderProduct

@@ -25,7 +25,9 @@ Route.post('auth', 'UserController.auth')
 Route.resource('customers', 'CustomerController').validator(new Map([
   [['customers.store'], ['StoreCustomer']],
   [['customers.update'], ['UpdateCustomer']]
-])).middleware('auth')
+]))
+// .middleware('auth')
+
 
 // users
 Route.resource('users', 'UserController').validator(new Map([
@@ -34,25 +36,23 @@ Route.resource('users', 'UserController').validator(new Map([
 ]))
 
 // products
-Route.resource('products', 'ProductController')
 Route.group(() => {
-  Route.post('products/:id/categories', 'ProductController.storeProductCategories')
-  Route.post('products/:id/images', 'ProductController.storeProductImages')
-  Route.post('products/:id/customers', 'ProductController.storeCustomerProduct')
+  Route.resource('products', 'ProductController')
+  Route.patch('products/:id/categories', 'ProductController.updateProductCategories')
+  Route.patch('products/:id/images', 'ProductController.updateProductImages')
 })
 
 // categories
-Route.resource('categories', 'CategoryController')
 Route.group(() => {
+  Route.resource('categories', 'CategoryController')
   Route.get('categories/:id/products', 'CategoryController.indexCategoryProducts')
 })
 
 // orders
 Route.resource('orders', 'OrderController')
-Route.group(() => {
-  Route.post('orders/:orderId/products/:productId', 'OrderController.storeOrderProduct')
-  Route.delete('orders/:orderId/products/:productId', 'OrderController.destroyOrderProduct')
-})
 
 // images
 Route.resource('images', 'ImageController');
+
+// customer bags
+Route.resource('customerBags', 'CustomerBagController')

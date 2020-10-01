@@ -28,8 +28,9 @@
     "@adonisjs/validator": "^5.0.6",
     "azure-storage": "^2.10.3",
     "fs": "0.0.1-security",
-    "uuid": "^8.3.0",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "objection": "^2.2.3",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {},
   "autoload": {

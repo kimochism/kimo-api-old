@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class ProductImage extends Model {
+    static get Serializer() {
+        return use('App/Models/Serializers/JsonSerializer')
+    }
 }
 
 module.exports = ProductImage

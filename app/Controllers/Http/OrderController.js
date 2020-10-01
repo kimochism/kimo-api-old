@@ -48,48 +48,6 @@ class OrderController {
 
     // return order; 
   }
-
-  async storeOrderProduct({ params, request }) {
-    const order = await Order.find(params.orderId);
-
-    const orderProduct = await order.products().fetch();
-    const orderProductJSON = orderProduct.toJSON();
-
-    if (orderProductJSON && orderProductJSON.length) {
-      await order.products()
-        .pivotQuery()
-        .where('product_id', params.productId)
-        .increment('quantity');
-
-      return order;
-    }
-
-    await order.products().attach([params.productId]);
-    return order;
-  }
-
-  async destroyOrderProduct({ params, request }) {
-    const order = await Order.find(params.orderId);
-
-    const orderProduct = await OrderProduct.query()
-      .where('order_id', params.orderId)
-      .where('product_id', params.productId)
-      .fetch();
-
-    const orderProductJSON = orderProduct.toJSON();
-
-    if (orderProductJSON && orderProductJSON.length && orderProductJSON[0].quantity > 1) {
-      await order.products()
-        .pivotQuery()
-        .where('product_id', params.productId)
-        .decrement('quantity');
-
-      return order;
-    }
-
-    await order.products().detach([params.productId]);
-    return order;
-  }
 }
 
 module.exports = OrderController
