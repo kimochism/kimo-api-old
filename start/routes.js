@@ -25,8 +25,7 @@ Route.post('auth', 'UserController.auth')
 Route.resource('customers', 'CustomerController').validator(new Map([
   [['customers.store'], ['StoreCustomer']],
   [['customers.update'], ['UpdateCustomer']]
-]))
-// .middleware('auth')
+])).middleware('auth')
 
 
 // users
@@ -39,19 +38,19 @@ Route.resource('users', 'UserController').validator(new Map([
 Route.resource('products', 'ProductController')
 
 // product categories
-Route.resource('productCategories', 'ProductCategoryController')
+Route.resource('productCategories', 'ProductCategoryController').middleware('auth')
 
 // product images
-Route.resource('productImages', 'ProductImageController')
+Route.resource('productImages', 'ProductImageController').middleware('auth')
 
 // categories
-Route.resource('categories', 'CategoryController')
+Route.resource('categories', 'CategoryController').middleware('auth')
 
 // orders
-Route.resource('orders', 'OrderController')
+Route.resource('orders', 'OrderController').middleware('auth')
 
 // images
-Route.resource('images', 'ImageController');
+Route.resource('images', 'ImageController').middleware('auth');
 
 // customer bags
-Route.resource('customerBags', 'CustomerBagController')
+Route.resource('customerBags', 'CustomerBagController').middleware('auth')

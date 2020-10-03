@@ -19,13 +19,21 @@ class CustomerBagController {
       .fetch();
   }
 
-  async store({ request, response }) {
-    const { customerId, productId } = request.all();
+  async store({ request, response, auth }) {
+    const { productId } = request.all();
 
-    const customerBag = await CustomerBag.findOrCreate(
-      { customer_id: customerId, product_id: productId },
-      { customer_id: customerId, product_id: productId, quantity: 0 }
-    );
+    const user = await auth.getUser();
+
+    const customer = await user.customer().fetch();
+
+    if (!customer) {
+      response.unauthorized('Login first')
+    }
+
+    const where =  { customer_id: customer.id, product_id: productId };
+    const create = { ...where, quantity: 0 };
+
+    const customerBag = await CustomerBag.findOrCreate(where, create);
 
     customerBag.merge({ quantity: customerBag.quantity + 1 });
     await customerBag.save();
