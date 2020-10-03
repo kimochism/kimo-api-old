@@ -1,13 +1,10 @@
 'use strict'
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const Model = use('Model')
 
-class CustomerBag extends Model {
+const BaseModel = use('App/Models/BaseModel')
 
-    static get Serializer() {
-        return use('App/Models/Serializers/JsonSerializer')
-    }
+class CustomerBag extends BaseModel {
 
     product() {
         return this.belongsTo('App/Models/Product')

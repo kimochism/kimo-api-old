@@ -6,8 +6,6 @@ const Env = use('Env')
 /** @type {import('@adonisjs/ignitor/src/Helpers')} */
 const Helpers = use('Helpers')
 
-const { knexSnakeCaseMappers } = require("objection");
-
 const config = {
   /*
   |--------------------------------------------------------------------------
@@ -63,7 +61,6 @@ const config = {
       },
       debug: Env.get('DB_DEBUG', false)
     },
-    ...knexSnakeCaseMappers()
   }),
 
   /*

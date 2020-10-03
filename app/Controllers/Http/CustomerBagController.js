@@ -10,7 +10,7 @@ class CustomerBagController {
     const customerBags = CustomerBag.query();
 
     if (queries.customerId) {
-      customerBags.where('customerId', queries.customerId);
+      customerBags.where('customer_id', queries.customerId);
     }
 
     return await customerBags
@@ -23,12 +23,11 @@ class CustomerBagController {
     const { customerId, productId } = request.all();
 
     const customerBag = await CustomerBag.findOrCreate(
-      { customerId, productId },
-      { customerId, productId, quantity: 0 }
+      { customer_id: customerId, product_id: productId },
+      { customer_id: customerId, product_id: productId, quantity: 0 }
     );
 
     customerBag.merge({ quantity: customerBag.quantity + 1 });
-
     await customerBag.save();
 
     return customerBag;

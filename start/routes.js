@@ -36,17 +36,16 @@ Route.resource('users', 'UserController').validator(new Map([
 ]))
 
 // products
-Route.group(() => {
-  Route.resource('products', 'ProductController')
-  Route.patch('products/:id/categories', 'ProductController.updateProductCategories')
-  Route.patch('products/:id/images', 'ProductController.updateProductImages')
-})
+Route.resource('products', 'ProductController')
+
+// product categories
+Route.resource('productCategories', 'ProductCategoryController')
+
+// product images
+Route.resource('productImages', 'ProductImageController')
 
 // categories
-Route.group(() => {
-  Route.resource('categories', 'CategoryController')
-  Route.get('categories/:id/products', 'CategoryController.indexCategoryProducts')
-})
+Route.resource('categories', 'CategoryController')
 
 // orders
 Route.resource('orders', 'OrderController')

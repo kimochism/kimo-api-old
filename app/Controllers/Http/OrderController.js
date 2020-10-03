@@ -1,7 +1,6 @@
 'use strict'
 
 const Order = use('App/Models/Order');
-const OrderProduct = use('App/Models/OrderProduct');
 
 class OrderController {
 
@@ -10,6 +9,7 @@ class OrderController {
 
     const orders = await Order.query().fetch();
 
+    console.log(orders);
     return orders;
   }
 
@@ -25,6 +25,8 @@ class OrderController {
     const order = await Order.find(params.id);
 
     await order.load('products');
+
+    console.log(order.customerId)
 
     return order;
   }

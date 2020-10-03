@@ -6,7 +6,7 @@ const fs = require('fs');
 const { v4: uuidv4, v4 } = require('uuid')
 const azure = require('azure-storage');
 
-class AzureStorageIntegrator {
+class AzureStorageService {
 
     async upload(file) {
         const container = Env.get('AZURE_STORAGE_CONTAINER');
@@ -52,4 +52,4 @@ class AzureStorageIntegrator {
     }
 }
 
-module.exports = AzureStorageIntegrator
+module.exports = AzureStorageService

@@ -2,17 +2,23 @@
 
 const Product = use('App/Models/Product');
 
+const QueryBuilderService = use('App/Services/QueryBuilderService');
+
 class ProductController {
+
+  constructor() {
+    this.queryBuilderService = new QueryBuilderService();
+  }
 
   async index({ request, response, view }) {
     const query = request.get();
 
-    const name = this.getQuery('name', query.name);
-    const size = this.getQuery('size', query.size);
-    const color = this.getQuery('color', query.color);
-    const type = this.getQuery('type', query.type);
-    const price = this.getQuery('price', query.price);
-    const discountPrice = this.getQuery('discount_price', query.discountPrice);
+    const name = this.queryBuilderService.getQuery('name', query.name);
+    const size = this.queryBuilderService.getQuery('size', query.size);
+    const color = this.queryBuilderService.getQuery('color', query.color);
+    const type = this.queryBuilderService.getQuery('type', query.type);
+    const price = this.queryBuilderService.getQuery('price', query.price);
+    const discountPrice = this.queryBuilderService.getQuery('discount_price', query.discountPrice);
 
     const products = Product.query()
       .with('images')
@@ -65,66 +71,6 @@ class ProductController {
 
     product.delete();
   }
-
-  async updateProductCategories({ params, request }) {
-    const data = request.only(['categoryIds'])
-
-    const product = await Product.find(params.id);
-
-    await product.categories().attach(data.categoryIds);
-
-    await product.load('categories');
-
-    return product;
-  }
-
-  async updateProductImages({ params, request }) {
-    const data = request.only(['imageIds'])
-
-    const product = await Product.find(params.id);
-
-    await product.images().attach(data.imageIds);
-
-    await product.load('images');
-
-    return product;
-  }
-
-  getQuery(name, param, condition = 'like') {
-
-    if (!param) {
-      return '';
-    }
-
-    const list = param.split(',');
-
-    const variable = condition === 'like' ? '%?%' : '?';
-    const query = this.queryBuilder(`${name} ${condition} '${variable}'`, 'OR', list);
-
-    if (query.trim()) {
-      return `(${query.trim()})`;
-    }
-
-    return '';
-  }
-
-  queryBuilder(operation, condition, values) {
-
-    if (!values) {
-      return '';
-    }
-
-    let query = '';
-    for (let i = 0; i < values.length; i++) {
-      const tempQuery = `${operation}`.replace('?', values[i].trim());
-      query += ` ${tempQuery}`;
-      if (i < values.length - 1) {
-        query += ` ${condition}`;
-      }
-    }
-    return query;
-  }
-
 }
 
 module.exports = ProductController

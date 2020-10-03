@@ -1,12 +1,10 @@
 'use strict'
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const Model = use('Model')
 
-class Product extends Model {
-    static get Serializer() {
-        return use('App/Models/Serializers/JsonSerializer')
-    }
+const BaseModel = use('App/Models/BaseModel')
+
+class Product extends BaseModel {
 
     categories() {
         return this.belongsToMany('App/Models/Category').pivotTable('product_categories')
@@ -17,7 +15,9 @@ class Product extends Model {
     }
 
     customer() {
-        return this.belongsToMany('App/Models/Customer').pivotTable('customer_products').pivotModel('App/Models/Customer');
+        return this.belongsToMany('App/Models/Customer')
+            .pivotTable('customer_products')
+            .pivotModel('App/Models/Customer');
     }
 
 }

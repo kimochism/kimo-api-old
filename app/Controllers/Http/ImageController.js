@@ -1,13 +1,13 @@
 'use strict'
 
-const AzureStorageIntegrator = use('App/Integrations/Azure/Storage/AzureStorageIntegrator');
+const AzureStorageService = use('App/Services/AzureStorageService');
 
 const Image = use('App/Models/Image')
 
 class ImageController {
 
   constructor() {
-    this.azureStorageIntegrator = new AzureStorageIntegrator();
+    this.azureStorageService = new AzureStorageService();
   }
 
   async index ({ request, response, view }) {
@@ -22,7 +22,7 @@ class ImageController {
       extnames: ['png', 'jpg', 'jpeg'],
     });
 
-    const uploadedImage = await this.azureStorageIntegrator.upload(file);
+    const uploadedImage = await this.azureStorageService.upload(file);
 
     const image = await Image.create({ url: uploadedImage.url });
 

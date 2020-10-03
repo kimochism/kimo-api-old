@@ -29,7 +29,6 @@
     "azure-storage": "^2.10.3",
     "fs": "0.0.1-security",
     "mysql": "^2.18.1",
-    "objection": "^2.2.3",
     "uuid": "^8.3.0"
   },
   "devDependencies": {},

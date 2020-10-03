@@ -39,17 +39,6 @@ class CategoryController {
 
     category.delete();
   }
-
-  async indexCategoryProducts({ params }) {
-
-    const category = await Category
-      .query()
-      .with('products', build => build.with('images'))
-      .where('id', params.id)
-      .fetch();
-
-    return category;
-  }
 }
 
 module.exports = CategoryController

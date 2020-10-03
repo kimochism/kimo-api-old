@@ -1,16 +1,12 @@
 'use strict'
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const Model = use('Model')
+const BaseModel = use('App/Models/BaseModel')
 
 /** @type {import('@adonisjs/framework/src/Hash')} */
 const Hash = use('Hash')
 
-class User extends Model {
-  
-  static get Serializer() {
-    return use('App/Models/Serializers/JsonSerializer')
-  }
+class User extends BaseModel {
 
   static boot() {
     super.boot()
