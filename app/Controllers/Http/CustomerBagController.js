@@ -48,19 +48,20 @@ class CustomerBagController {
   }
 
   async update({ params, request, response }) {
+    const data = request.all();
+
+    const customerBag = await CustomerBag.find(params.id);
+
+    customerBag.merge(data);
+    await customerBag.save();
+
+    return customerBag;
   }
 
   async destroy({ params, request, response }) {
     const customerBag = await CustomerBag.find(params.id);
 
-    if (customerBag.quantity <= 1) {
-      return await customerBag.delete();
-    }
-
-    customerBag.merge({ quantity: customerBag.quantity - 1 });
-    await customerBag.save();
-
-    return;
+    return await customerBag.delete();
   }
 
   async getLoggedCustomer(auth) {
