@@ -2,15 +2,24 @@
 
 const CustomerBag = use('App/Models/CustomerBag');
 
+const QueryBuilderService = use('App/Services/QueryBuilderService');
+
 class CustomerBagController {
 
-  async index({ request, response }) {
+  constructor() {
+    this.queryBuilderService = new QueryBuilderService();
+  }
+
+  async index({ request, response, auth }) {
     const queries = request.get();
 
     const customerBags = CustomerBag.query();
 
-    if (queries.customerId) {
-      customerBags.where('customer_id', queries.customerId);
+    const loggedCustomer = this.queryBuilderService.getBooleanQuery(queries.loggedCustomer);
+
+    if (loggedCustomer) {
+      const customer = await this.getLoggedCustomer(auth);
+      customerBags.where('customer_id', customer.id);
     }
 
     return await customerBags
@@ -22,13 +31,7 @@ class CustomerBagController {
   async store({ request, response, auth }) {
     const { productId } = request.all();
 
-    const user = await auth.getUser();
-
-    const customer = await user.customer().fetch();
-    console.log(customer);
-    if (!customer) {
-      return response.unauthorized('Login first')
-    }
+    const customer = await this.getLoggedCustomer(auth);
 
     const where =  { customer_id: customer.id, product_id: productId };
     const create = { ...where, quantity: 0 };
@@ -58,6 +61,17 @@ class CustomerBagController {
     await customerBag.save();
 
     return;
+  }
+
+  async getLoggedCustomer(auth) {
+    const user = await auth.getUser();
+
+    const customer = await user.customer().fetch();
+    if (!customer) {
+      throw response.unauthorized('Login first')
+    }
+
+    return customer;
   }
 }
 
