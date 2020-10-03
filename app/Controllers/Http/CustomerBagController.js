@@ -25,9 +25,9 @@ class CustomerBagController {
     const user = await auth.getUser();
 
     const customer = await user.customer().fetch();
-
+    console.log(customer);
     if (!customer) {
-      response.unauthorized('Login first')
+      return response.unauthorized('Login first')
     }
 
     const where =  { customer_id: customer.id, product_id: productId };
