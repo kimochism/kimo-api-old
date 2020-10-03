@@ -8,7 +8,7 @@ class CustomerController {
 
   }
 
-  async store ({ request, response }) {
+  async store ({ request, response, auth }) {
     const data = request.all();
 
     const customer = await Customer.create(data);

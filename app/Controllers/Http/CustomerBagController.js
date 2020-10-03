@@ -14,7 +14,7 @@ class CustomerBagController {
     }
 
     return await customerBags
-      .with('product.image')
+      .with('product.images')
       .orderBy('id', 'desc')
       .fetch();
   }
