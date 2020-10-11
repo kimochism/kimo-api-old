@@ -10,7 +10,7 @@ class ProductController {
     this.queryBuilderService = new QueryBuilderService();
   }
 
-  async index({ request, response, view }) {
+  async index({ request, response }) {
     const query = request.get();
 
     const name = this.queryBuilderService.getQuery('name', query.name);
@@ -45,6 +45,7 @@ class ProductController {
 
     return await products
       .select('products.*')
+      .groupBy('products.id')
       .orderBy('products.id', 'desc')
       .paginate(query.page, query.limit);
   }
