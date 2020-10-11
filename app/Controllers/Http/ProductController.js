@@ -18,7 +18,8 @@ class ProductController {
     const color = this.queryBuilderService.getQuery('color', query.color);
     const type = this.queryBuilderService.getQuery('type', query.type);
     const price = this.queryBuilderService.getQuery('price', query.price);
-    const discountPrice = this.queryBuilderService.getQuery('discount_price', query.discountPrice);
+    const discountPrice = this.queryBuilderService.getQuery('discountPrice', query.discountPrice);
+    const categoryName = this.queryBuilderService.getQuery('categories.name', query.categoryName);
 
     const products = Product.query()
       .with('images')
@@ -30,11 +31,20 @@ class ProductController {
       .whereRaw(price)
       .whereRaw(discountPrice)
 
+    
+    if (categoryName) {
+      products
+        .innerJoin('product_categories', 'product_categories.product_id', 'products.id')
+        .innerJoin('categories', 'product_categories.category_id', 'categories.id')
+        .whereRaw(categoryName)
+    }
+
     if (query.offer) {
       products.whereNotNull('discount_price')
     }
 
     return await products
+      .select('products.*')
       .orderBy('products.id', 'desc')
       .paginate(query.page, query.limit);
   }
