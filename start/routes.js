@@ -30,8 +30,8 @@ Route.resource('customers', 'CustomerController').validator(new Map([
 
 // users
 Route.resource('users', 'UserController').validator(new Map([
-  [['users.store'], ['StoreUser']],
-  [['users.update'], ['UpdateUser']]
+  [['users.store'], ['User/StoreUser']],
+  [['users.update'], ['User/UpdateUser']]
 ]))
 
 // products
