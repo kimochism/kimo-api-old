@@ -13,31 +13,31 @@ class CategoryController {
   }
 
   async store({ request, response }) {
-    const data = request.all();
+    // const data = request.all();
 
-    const category = await Category.create(data);
+    // const category = await Category.create(data);
 
-    return category;
+    // return category;
   }
 
   async show({ params, request, response }) {
   }
 
   async update({ params, request, response }) {
-    const data = request.all();
+    // const data = request.all();
 
-    const category = await Category.find(params.id);
+    // const category = await Category.find(params.id);
 
-    category.merge(data);
-    await category.save();
+    // category.merge(data);
+    // await category.save();
 
-    return category;
+    // return category;
   }
 
   async destroy({ params, request, response }) {
-    const category = await Category.find(params.id);
+    // const category = await Category.find(params.id);
 
-    category.delete();
+    // category.delete();
   }
 }
 

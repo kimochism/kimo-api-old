@@ -44,7 +44,7 @@ Route.resource('productCategories', 'ProductCategoryController').middleware('aut
 Route.resource('productImages', 'ProductImageController').middleware('auth')
 
 // categories
-Route.resource('categories', 'CategoryController').middleware('auth')
+Route.resource('categories', 'CategoryController')
 
 // orders
 Route.resource('orders', 'OrderController').middleware('auth')
