@@ -23,8 +23,8 @@ Route.post('auth', 'UserController.auth')
 
 // customers
 Route.resource('customers', 'CustomerController').validator(new Map([
-  [['customers.store'], ['StoreCustomer']],
-  [['customers.update'], ['UpdateCustomer']]
+  [['customers.store'], ['Customer/StoreCustomer']],
+  [['customers.update'], ['Customer/UpdateCustomer']]
 ])).middleware('auth')
 
 
