@@ -1,7 +1,7 @@
 'use strict'
 
 const CustomerBag = use('App/Models/CustomerBag');
-const User = use('App/Models/User');
+const Customer = use('App/Models/Customer');
 
 const QueryBuilderService = use('App/Services/QueryBuilderService');
 
@@ -24,7 +24,7 @@ class CustomerBagController {
         return response.unauthorized('Login first')
 
       }
-  
+
       customerBags.where('customer_id', customer.id);
     }
 
@@ -43,7 +43,7 @@ class CustomerBagController {
       return response.unauthorized('Login first')
     }
 
-    const where =  { customer_id: customer.id, product_id: productId };
+    const where = { customer_id: customer.id, product_id: productId };
     const create = { ...where, quantity: 0 };
 
     const customerBag = await CustomerBag.findOrCreate(where, create);
@@ -75,10 +75,8 @@ class CustomerBagController {
   }
 
   async getLoggedCustomer(auth) {
-    const user = await User.find(auth.user.id);
-    console.log(user);
+    const customer = await Customer.findBy('user_id', auth.user.id);
 
-    const customer = await user.customer().fetch();
     if (!customer) {
       return;
     }
