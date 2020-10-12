@@ -18,7 +18,7 @@ class CustomerBagController {
     const loggedCustomer = this.queryBuilderService.getBooleanQuery(queries.loggedCustomer);
 
     if (loggedCustomer) {
-      const customer = await this.getLoggedCustomer(auth);
+      const customer = await this.getLoggedCustomer(auth, response);
       customerBags.where('customer_id', customer.id);
     }
 
@@ -31,7 +31,7 @@ class CustomerBagController {
   async store({ request, response, auth }) {
     const { productId } = request.all();
 
-    const customer = await this.getLoggedCustomer(auth);
+    const customer = await this.getLoggedCustomer(auth, response);
 
     const where =  { customer_id: customer.id, product_id: productId };
     const create = { ...where, quantity: 0 };
@@ -64,7 +64,7 @@ class CustomerBagController {
     return await customerBag.delete();
   }
 
-  async getLoggedCustomer(auth) {
+  async getLoggedCustomer(auth, response) {
     const user = await auth.getUser();
 
     const customer = await user.customer().fetch();
