@@ -57,3 +57,5 @@ Route.resource('images', 'ImageController').middleware('auth');
 
 // customer bags
 Route.resource('customerBags', 'CustomerBagController').middleware('auth')
+
+Route.resource('payments', 'PaymentController').middleware('auth')
