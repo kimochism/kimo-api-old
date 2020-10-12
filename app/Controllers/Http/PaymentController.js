@@ -20,9 +20,16 @@ class PaymentController {
     const data = request.all();
     const paymentRequest = this.mercadoPagoPaymentBuilder.to(data);
     
-    const paymentResponse = await this.mercadoPagoService.savePayment(paymentRequest);
+    const mercadoPagoResponse = await this.mercadoPagoService.savePayment(paymentRequest);
 
-    return paymentResponse;
+    if (mercadoPagoResponse && mercadoPagoResponse.status === 201 || mercadoPagoResponse.status === 200) {
+      const paymentResponse = this.mercadoPagoPaymentBuilder.from(mercadoPagoResponse.response);
+  
+      paymentResponse.orderId = data.orderId;
+
+      const payment = await Payment.create(paymentResponse);
+      return payment;
+    }
   }
 
   async show ({ params, request, response }) {

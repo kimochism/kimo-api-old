@@ -1,5 +1,5 @@
 const MercadoPagoPaymentRequest = use('App/DTOs/MercadoPago/Request/MercadoPagoPaymentRequest');
-
+const MercadoPagoPaymentResponse = use('App/DTOs/MercadoPago/Response/MercadoPagoPaymentResponse')
 
 class MercadoPagoPaymentBuilder {
 
@@ -27,6 +27,18 @@ class MercadoPagoPaymentBuilder {
         }
 
         return mercadoPagoRequest;
+    }
+
+    from(response) {
+        const mercadoPagoResponse = new MercadoPagoPaymentResponse();
+        
+        mercadoPagoResponse.status = response.status;
+        mercadoPagoResponse.amount = response.transaction_amount;
+        mercadoPagoResponse.installments = response.installments;
+        mercadoPagoResponse.paymentMethodCode = response.payment_method_id;
+        mercadoPagoResponse.paymentType = response.payment_type_id;
+
+        return mercadoPagoResponse;
     }
 }
 
