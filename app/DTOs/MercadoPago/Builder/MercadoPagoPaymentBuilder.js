@@ -31,7 +31,7 @@ class MercadoPagoPaymentBuilder {
 
     from(response) {
         const mercadoPagoResponse = new MercadoPagoPaymentResponse();
-        
+
         mercadoPagoResponse.status = response.status;
         mercadoPagoResponse.amount = response.transaction_amount;
         mercadoPagoResponse.installments = response.installments;

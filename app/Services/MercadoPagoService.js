@@ -13,7 +13,6 @@ class MercadoPagoService {
     }
 
     async savePayment(paymentData) {
-        console.log(mercadopago.payment)
         const response = await mercadopago.payment.save(paymentData);
         
         return response;

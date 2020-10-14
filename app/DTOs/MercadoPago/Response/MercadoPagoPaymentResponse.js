@@ -2,12 +2,11 @@ class MercadoPagoPaymentResponse {
     
     constructor() {
         this.status;
-        this.transaction_amount;
+        this.amount;
         this.installments;
-        this.payment_method_id;
-        this.payment_type_id;
+        this.paymentMethodCode;
+        this.paymentType;
     }
-
 }
 
 module.exports = MercadoPagoPaymentResponse

@@ -59,3 +59,5 @@ Route.resource('images', 'ImageController').middleware('auth');
 Route.resource('customerBags', 'CustomerBagController').middleware('auth')
 
 Route.resource('payments', 'PaymentController').middleware('auth')
+
+Route.post('freights', 'FreightController.store')
