@@ -30,10 +30,9 @@ class ProductController {
       .whereRaw(color)
       .whereRaw(type)
       .whereRaw(price)
-      .whereRaw(discountPrice);
+      .whereRaw(discountPrice)
 
 
-    // verify if is authenticated
     if (auth.getAuthHeader()) {
       const user = await auth.getUser();
       const customer = await user.customer().fetch();
@@ -43,9 +42,12 @@ class ProductController {
       });
     }
 
-    
     if (groupBy) {
       products.groupByRaw("products.name");
+    }
+
+    if (thanks) {
+      products.where('tahnks', true)
     }
 
     if (categoryName) {
