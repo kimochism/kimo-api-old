@@ -46,14 +46,6 @@ class ProductController {
       products.groupByRaw("products.name");
     }
 
-    if (thanks) {
-      products.where('tahnks', true)
-    }
-
-    if (producName) {
-      products.where('name', query.name);
-    }
-
     if (categoryName) {
       products
         .innerJoin('product_categories', 'product_categories.product_id', 'products.id')
