@@ -20,6 +20,10 @@ class Product extends BaseModel {
             .pivotModel('App/Models/Customer');
     }
 
+    wishlist() {
+        return this.hasOne('App/Models/Wishlist')
+    }
+
 }
 
 module.exports = Product

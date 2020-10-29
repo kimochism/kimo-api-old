@@ -10,7 +10,7 @@ class ProductController {
     this.queryBuilderService = new QueryBuilderService();
   }
 
-  async index({ request, response }) {
+  async index({ request, response, auth }) {
     const query = request.get();
 
     const name = this.queryBuilderService.getQuery('name', query.name);
@@ -32,7 +32,17 @@ class ProductController {
       .whereRaw(price)
       .whereRaw(discountPrice)
 
-    
+
+    // verify if is authenticated
+    if (auth.getAuthHeader()) {
+      const user = await auth.getUser();
+      const customer = await user.customer().fetch();
+
+      products.with('wishlist', query => {
+        query.where('customer_id', customer.id)
+      });
+    }
+
     if (groupBy) {
       products.groupBy("name");
     }
