@@ -20,6 +20,7 @@ class ProductController {
     const price = this.queryBuilderService.getQuery('price', query.price);
     const discountPrice = this.queryBuilderService.getQuery('discountPrice', query.discountPrice);
     const categoryName = this.queryBuilderService.getQuery('categories.name', query.categoryName);
+    const groupBy = this.queryBuilderService.getBooleanQuery('groupBy');
 
     const products = Product.query()
       .with('images')
@@ -32,6 +33,10 @@ class ProductController {
       .whereRaw(discountPrice)
 
     
+    if (groupBy) {
+      products.groupBy("name");
+    }
+
     if (categoryName) {
       products
         .innerJoin('product_categories', 'product_categories.product_id', 'products.id')
