@@ -43,6 +43,7 @@ class ProductController {
       });
     }
 
+    
     if (groupBy) {
       products.groupByRaw("products.name");
     }
