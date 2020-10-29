@@ -58,6 +58,13 @@ Route.resource('images', 'ImageController').middleware('auth');
 // customer bags
 Route.resource('customerBags', 'CustomerBagController').middleware('auth')
 
+// payments
 Route.resource('payments', 'PaymentController').middleware('auth')
+
+// wishlists
+Route.group(() => {
+  Route.resource('wishlists', 'WishlistController')
+  Route.delete('wishlists/products/:productId', 'WishlistController.destroy')
+}).middleware('auth')
 
 Route.post('freights', 'FreightController.store')
