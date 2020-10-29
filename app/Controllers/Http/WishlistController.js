@@ -21,9 +21,6 @@ class WishlistController {
     return wishlist;
   }
 
-  async update ({ params, request, response }) {
-  }
-
   async destroy ({ params, response, auth }) {
     const user = await auth.getUser();
     const customer = await user.customer().fetch();
@@ -36,6 +33,10 @@ class WishlistController {
 
       return response.status(200).json({ message: 'OK' });
   }
+
+  async update ({ params, request, response }) {
+  }
+
 }
 
 module.exports = WishlistController
