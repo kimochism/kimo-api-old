@@ -7,6 +7,9 @@ class WishlistController {
   async index ({ request, response, view }) {
   }
 
+  async show ({ params, request, response, view }) {
+  }
+
   async store ({ request, auth }) {
     const data = request.only(['productId']);
 
@@ -16,9 +19,6 @@ class WishlistController {
     const wishlist = await Wishlist.create({ customerId: customer.id, productId: data.productId });
 
     return wishlist;
-  }
-
-  async show ({ params, request, response, view }) {
   }
 
   async update ({ params, request, response }) {
