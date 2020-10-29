@@ -50,6 +50,10 @@ class ProductController {
       products.where('tahnks', true)
     }
 
+    if (producName) {
+      products.where('name', query.name);
+    }
+
     if (categoryName) {
       products
         .innerJoin('product_categories', 'product_categories.product_id', 'products.id')
