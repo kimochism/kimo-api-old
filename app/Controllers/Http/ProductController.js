@@ -71,10 +71,20 @@ class ProductController {
     return product;
   }
 
-  async show({ params, request, response, view }) {
+  async show({ params, request, response, view, auth }) {
+
     const product = await Product.find(params.id);
 
     await product.loadMany(['images', 'categories']);
+
+    if (auth.getAuthHeader()) {
+      const user = await auth.getUser();
+      const customer = await user.customer().fetch();
+
+      await product.load('wishlist', query => {
+        query.where('customer_id', customer.id)
+      });
+    }
 
     return product;
   }
