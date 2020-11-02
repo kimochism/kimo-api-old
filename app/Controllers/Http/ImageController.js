@@ -1,13 +1,14 @@
 'use strict'
 
-const AzureStorageService = use('App/Services/AzureStorageService');
+// const AzureStorageService = use('App/Services/AzureStorageService');
+const CloudinaryStorageService = use('App/Services/CloudinaryStorageService');
 
 const Image = use('App/Models/Image')
 
 class ImageController {
 
   constructor() {
-    this.azureStorageService = new AzureStorageService();
+    this.CloudinaryStorageService = new CloudinaryStorageService();
   }
 
   async index ({ request, response, view }) {
@@ -15,16 +16,10 @@ class ImageController {
 
   async store ({ request, response }) {
     const data = request.all();
+    
+    const uploadedImage = await this.CloudinaryStorageService.upload(request.file('file'));
 
-    const file = request.file('file', {
-      types: ['image'],
-      size: '10mb',
-      extnames: ['png', 'jpg', 'jpeg'],
-    });
-
-    const uploadedImage = await this.azureStorageService.upload(file);
-
-    const image = await Image.create({ url: uploadedImage.url });
+    const image = await Image.create({ url: uploadedImage });
 
     return image;
   }
